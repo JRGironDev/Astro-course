@@ -1,0 +1,22 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getLaunchBy } from "../../services/spacex";
+import Layout from "../../layouts/Layout.astro";
+
+const {id} = Astro.params
+
+let launch;
+
+if (id) {
+    launch = await getLaunchBy({id});
+} else {
+    return;
+}   
+---
+<Layout title={launch.name}>
+<article class="flex gap-y-4 flex-col">
+    <img class="w-52 h-auto" src={launch?.links?.patch.small}>
+    <h2 class="text-4xl text-white font-bold">Launch{launch?.flight_number}</h2>
+    <p class="text-white text-lg">{launch?.details}</p>
+</article>
+</Layout>
